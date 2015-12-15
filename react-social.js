@@ -152,6 +152,7 @@
       , url: React.PropTypes.string
       , media: React.PropTypes.string
       , message: React.PropTypes.string
+      , description: React.PropTypes.string
       , onClick: React.PropTypes.func
     }
 
@@ -179,12 +180,16 @@
         if (typeof result === "object") {
           var url = result[0]
           var target = result[1]
+        } else if(this.props.popup){
+            var url = result;
+            var target = "";
+            var popup = this.props.popup;
         } else {
           var url = result
           var target = "_blank"
         }
 
-        window.open(url, target);
+        window.open(url, target, popup);
       }
     }
 
@@ -293,7 +298,21 @@
   exports.VKontakteButton = React.createClass({
       mixins: [Button]
     , constructUrl: function () {
-        return "http://vk.com/share.php?url=" + encodeURIComponent(this.props.url);
+        var shareUrl = "http://vk.com/share.php?url=" + encodeURIComponent(this.props.url);
+        if(this.props.media) {
+            shareUrl += "&image=" + encodeURIComponent(this.props.media);
+        }
+        if(this.props.message) {
+            shareUrl += "&title=" + encodeURIComponent(this.props.message);
+        }
+        if(this.props.description) {
+            shareUrl += "&description=" + encodeURIComponent(this.props.description);
+        }
+        //todo
+        if(this.props.noparse) {
+            shareUrl += "&noparse=true";
+        }
+        return shareUrl;
     }
   });
 
