@@ -316,6 +316,28 @@
     }
   });
 
+    exports.OdnoklassnikiButton = React.createClass({
+        mixins: [Button]
+        , constructUrl: function () {
+//            var shareUrl = 'http://www.odnoklassniki.ru/dk?st.cmd=addShare&st.s=1';
+            var shareUrl = 'http://www.ok.ru/dk?st.cmd=addShare&st.s=1';
+            shareUrl += '&st._surl=' + encodeURIComponent(this.props.url);
+            if(this.props.message) {
+                shareUrl += '&st.comments=' + encodeURIComponent(this.props.message);
+            }
+            return shareUrl;
+        }
+    });
+
+    exports.GooglePlusButton = React.createClass({
+        mixins: [Button]
+        , constructUrl: function () {
+            var shareUrl = 'https://plus.google.com/share';
+            shareUrl += '?url=' + encodeURIComponent(this.props.url);
+            return shareUrl;
+        }
+    });
+
     exports.notReleasedButton = React.createClass({
         mixins: [Button]
 
