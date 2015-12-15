@@ -292,11 +292,19 @@
 
   exports.VKontakteButton = React.createClass({
       mixins: [Button]
-
     , constructUrl: function () {
         return "http://vk.com/share.php?url=" + encodeURIComponent(this.props.url);
     }
   });
+
+    exports.notReleasedButton = React.createClass({
+        mixins: [Button]
+
+        , constructUrl: function () {
+            console.log(this.props)
+            return "#";
+        }
+    });
 
   return exports;
 });
