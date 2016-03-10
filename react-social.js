@@ -345,8 +345,8 @@
             shareUrl += '?posttype=link';
             shareUrl += '&content='+encodeURIComponent(this.props.url);
             shareUrl += '&canonicalUrl='+encodeURIComponent(this.props.url);
-            shareUrl += '&title=' + encodeURIComponent(this.props.message);
-            shareUrl += '&caption=' + encodeURIComponent(this.props.description);
+            shareUrl += typeof this.props.message === 'string' ? '&title=' + encodeURIComponent( this.props.message.replace(/(<.*?>)/ig,"") ) : '';
+            shareUrl += typeof this.props.description === 'string' ? '&caption=' + encodeURIComponent(this.props.description.replace(/(<.*?>)/ig,"") ) : '';
             return shareUrl;
         }
     });
