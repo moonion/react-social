@@ -338,6 +338,19 @@
         }
     });
 
+    exports.TumblrButton = React.createClass({
+        mixins: [Button]
+        , constructUrl: function () {
+            var shareUrl = 'https://www.tumblr.com/widgets/share/tool';
+            shareUrl += '?posttype=link';
+            shareUrl += '&content='+encodeURIComponent(this.props.url);
+            shareUrl += '&canonicalUrl='+encodeURIComponent(this.props.url);
+            shareUrl += '&title=' + encodeURIComponent(this.props.message);
+            shareUrl += '&caption=' + encodeURIComponent(this.props.description);
+            return shareUrl;
+        }
+    });
+
     exports.notReleasedButton = React.createClass({
         mixins: [Button]
 
