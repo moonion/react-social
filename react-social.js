@@ -9,7 +9,8 @@
 })(this, function (React) {
   "use strict";
 
-    var maxUrlLength = 2000;
+    var maxDescriptionLength = 600;
+    var maxMessageLength = 600;
 
   var isBrowser = function () {
     return !(typeof document === "undefined" || typeof window === "undefined");
@@ -345,14 +346,15 @@
         , constructUrl: function () {
             var skipTagNames = ['br','p'];
             var caption = typeof this.props.description === 'string' ? strip_tags(this.props.description, skipTagNames) : '';
+            caption = encodeURIComponent(strLengthLimit(caption, maxDescriptionLength));
+            var message = typeof this.props.message === 'string' ? strip_tags(this.props.message) : '';
+            message = encodeURIComponent(strLengthLimit(message, maxMessageLength));
             var shareUrl = 'https://www.tumblr.com/widgets/share/tool';
             shareUrl += '?posttype=link';
             shareUrl += '&content='+encodeURIComponent(this.props.url);
             shareUrl += '&canonicalUrl='+encodeURIComponent(this.props.url);
-            shareUrl += typeof this.props.message === 'string' ? '&title=' + encodeURIComponent( this.props.message.replace(/(<.*?>)/ig,"") ) : '';
+            shareUrl += '&title=' + message;
             shareUrl += '&caption=' + caption;
-
-            shareUrl = strLenLimit(shareUrl,maxUrlLength);
 
             return shareUrl;
         }
@@ -380,7 +382,7 @@
         });
     };
 
-    var strLenLimit = function(str, maxLen){
+    var strLengthLimit = function(str, maxLen){
         if(str.length <= maxUrlLength){
             return str;
         }
