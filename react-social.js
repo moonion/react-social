@@ -9,6 +9,8 @@
 })(this, function (React) {
   "use strict";
 
+    var maxUrlLength = 2000;
+
   var isBrowser = function () {
     return !(typeof document === "undefined" || typeof window === "undefined");
   };
@@ -349,6 +351,9 @@
             shareUrl += '&canonicalUrl='+encodeURIComponent(this.props.url);
             shareUrl += typeof this.props.message === 'string' ? '&title=' + encodeURIComponent( this.props.message.replace(/(<.*?>)/ig,"") ) : '';
             shareUrl += '&caption=' + caption;
+
+            shareUrl = strLenLimit(shareUrl,maxUrlLength);
+
             return shareUrl;
         }
     });
@@ -368,12 +373,19 @@
      * @param skipTagNames - array ? ['br','p']
      * @returns {string}
      */
-    function strip_tags(string, skipTagNames){
+    var strip_tags = function(string, skipTagNames){
         skipTagNames = Array.isArray(skipTagNames) ? skipTagNames : [];
         return string.replace(/(<.*?>)/ig, function(match){
             return skipTagNames.indexOf(match.replace(/<|>|\//g, ''))>-1 ? match : '';
         });
     };
+
+    var strLenLimit = function(str, maxLen){
+        if(str.length <= maxUrlLength){
+            return str;
+        }
+        return str.substring(0,maxLen);
+    }
 
     return exports;
 });
