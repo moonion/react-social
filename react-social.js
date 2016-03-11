@@ -9,8 +9,8 @@
 })(this, function (React) {
   "use strict";
 
-    var maxDescriptionLength = 600;
-    var maxMessageLength = 600;
+    var maxDescriptionLength = 200;
+    var maxMessageLength = 100;
 
   var isBrowser = function () {
     return !(typeof document === "undefined" || typeof window === "undefined");
@@ -383,10 +383,15 @@
     };
 
     var strLengthLimit = function(str, maxLen){
-        if(str.length <= maxUrlLength){
+        if(str.length <= maxLen){
             return str;
         }
-        return str.substring(0,maxLen);
+        return str.replace(/\S*/ig, function(match, offset){
+            if(offset>=maxLen){
+                return '';
+            }
+            return match;
+        }) + '...';
     }
 
     return exports;
