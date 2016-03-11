@@ -9,7 +9,7 @@
 })(this, function (React) {
   "use strict";
 
-    var maxDescriptionLength = 200;
+    var maxDescriptionLength = 400;
     var maxMessageLength = 100;
 
   var isBrowser = function () {
