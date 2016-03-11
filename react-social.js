@@ -341,12 +341,14 @@
     exports.TumblrButton = React.createClass({
         mixins: [Button]
         , constructUrl: function () {
+            var skipTagNames = ['br','p'];
+            var caption = typeof this.props.description === 'string' ? strip_tags(this.props.description, skipTagNames) : '';
             var shareUrl = 'https://www.tumblr.com/widgets/share/tool';
             shareUrl += '?posttype=link';
             shareUrl += '&content='+encodeURIComponent(this.props.url);
             shareUrl += '&canonicalUrl='+encodeURIComponent(this.props.url);
             shareUrl += typeof this.props.message === 'string' ? '&title=' + encodeURIComponent( this.props.message.replace(/(<.*?>)/ig,"") ) : '';
-            shareUrl += typeof this.props.description === 'string' ? '&caption=' + encodeURIComponent(this.props.description.replace(/(<.*?>)/ig,"") ) : '';
+            shareUrl += '&caption=' + caption;
             return shareUrl;
         }
     });
@@ -360,5 +362,18 @@
         }
     });
 
-  return exports;
+    /**
+     * возвращает строку str, из которой удалены HTML
+     * @param string
+     * @param skipTagNames - array ? ['br','p']
+     * @returns {string}
+     */
+    function strip_tags(string, skipTagNames){
+        skipTagNames = Array.isArray(skipTagNames) ? skipTagNames : [];
+        return string.replace(/(<.*?>)/ig, function(match){
+            return skipTagNames.indexOf(match.replace(/<|>|\//g, ''))>-1 ? match : '';
+        });
+    };
+
+    return exports;
 });
